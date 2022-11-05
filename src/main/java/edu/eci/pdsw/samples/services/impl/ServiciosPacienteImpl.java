@@ -33,16 +33,22 @@ public class ServiciosPacienteImpl implements ServiciosPaciente {
     }
 
     @Override
-    public Paciente consultarPacientesPorId(int id, TipoIdentificacion tipoIdentificacion) throws ExcepcionServiciosSuscripciones {
-        return daoPaciente.consultarPacientesPorId(id, tipoIdentificacion);
+    public Paciente consultarPacientesPorId(int id, TipoIdentificacion tipoIdentificacion) throws ExcepcionServiciosSuscripciones, PersistenceException {
+        try{
+            return daoPaciente.consultarPacientesPorId(id, tipoIdentificacion);
+        }catch (Exception e){
+            throw new PersistenceException("Error al consultar los pacientes:"+e.getLocalizedMessage(), e);
+        }
     }
 
     @Override
-    public List<Paciente> consultarMenoresConEnfermedadContagiosa() throws ExcepcionServiciosSuscripciones {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Paciente> consultarMenoresConEnfermedadContagiosa() throws ExcepcionServiciosSuscripciones, PersistenceException {
+        try{
+        return daoPaciente.consultarMenoresConEnfermedadContagiosa();
+        }catch (Exception e){
+            throw new PersistenceException("Error al consultar los pacientes:"+e.getLocalizedMessage(), e);
+        }
     }
 
-
-    
     
 }

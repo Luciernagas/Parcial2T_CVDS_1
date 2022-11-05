@@ -37,6 +37,6 @@ public interface PacienteMapper {
 
     Paciente consultarPacientesPorId(@Param("id") int id,@Param("tipo_id") TipoIdentificacion tipo_id);
 
-    Paciente consultarMenoresConEnfermedadContagiosa(@Param("id") int id,@Param("tipo_id") TipoIdentificacion tipo_id);
+    List<Paciente> consultarMenoresConEnfermedadContagiosa();
 
 }

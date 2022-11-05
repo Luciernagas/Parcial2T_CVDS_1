@@ -67,8 +67,20 @@ public class MyBatisDAOPaciente implements DaoPaciente {
     }
 
     @Override
-    public Paciente consultarPacientesPorId(int id, TipoIdentificacion tipo_id) {
-        return pacienteMapper.consultarPacientesPorId(id, tipo_id);
+    public Paciente consultarPacientesPorId(int id, TipoIdentificacion tipo_id) throws PersistenceException {
+        try {
+            return pacienteMapper.consultarPacientesPorId(id, tipo_id);
+        } catch (Exception e) {
+            throw new PersistenceException("Error al consultar los pacientes:" + e.getLocalizedMessage(), e);
+        }
     }
 
+    @Override
+    public List<Paciente> consultarMenoresConEnfermedadContagiosa() throws PersistenceException {
+        try {
+            return pacienteMapper.consultarMenoresConEnfermedadContagiosa();
+        }catch (Exception e){
+            throw new PersistenceException("Error al consultar los pacientes:"+e.getLocalizedMessage(), e);
+        }
+    }
 }

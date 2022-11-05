@@ -19,6 +19,7 @@ package edu.eci.pdsw.samples.tests;
 import edu.eci.pdsw.samples.entities.Paciente;
 import edu.eci.pdsw.samples.entities.Consulta;
 import edu.eci.pdsw.samples.entities.TipoIdentificacion;
+import edu.eci.pdsw.samples.persistence.PersistenceException;
 import edu.eci.pdsw.samples.services.ExcepcionServiciosSuscripciones;
 import edu.eci.pdsw.samples.services.ServiciosPacientesFactory;
 import java.sql.Connection;
@@ -66,7 +67,7 @@ public class ServicesJUnitTest {
     }
     
     @Test
-    public void pruebaCeroTest() throws SQLException, ExcepcionServiciosSuscripciones {
+    public void pruebaCeroTest() throws SQLException, ExcepcionServiciosSuscripciones, PersistenceException {
         //Insertar datos en la base de datos de pruebas, de acuerdo con la clase
         //de equivalencia correspondiente
         Connection conn=getConnection();
@@ -90,10 +91,53 @@ public class ServicesJUnitTest {
         //assert ...
         Paciente paciente = ServiciosPacientesFactory.getInstance().getTestingForumServices().consultarPacientesPorId(9876, TipoIdentificacion.TI);
         Assert.assertEquals(paciente.getNombre(), "Carmenzo");
+    }
 
+    @Test
+    public void Dado_Id_y_TipoIdentificacion_Cuando_PacienteExiste_Entonces_RetornaPaciente() throws SQLException {
+        //Arrange
+        Connection conn=getConnection();
+        Statement stmt=conn.createStatement();
 
-        
-    }    
-    
+        stmt.execute("INSERT INTO `PACIENTES` (`id`, `tipo_id`, `nombre`, `fecha_nacimiento`) VALUES (1080,'CC','Aura','1968-07-20')");
+        stmt.execute("INSERT INTO `CONSULTAS` (`idCONSULTAS`, `fecha_y_hora`, `resumen`, `PACIENTES_id`, `PACIENTES_tipo_id`) VALUES (1262218,'2002-05-13 00:00:00','Muy buen servicio',1080,'CC')");
 
+        conn.commit();
+        conn.close();
+
+        try {
+            //Act
+            Paciente paciente = ServiciosPacientesFactory.getInstance().getTestingForumServices().consultarPacientesPorId(1080, TipoIdentificacion.CC);
+            //Assert
+            Assert.assertEquals(paciente.getId(), 1080);
+        } catch (ExcepcionServiciosSuscripciones | PersistenceException e) {
+            throw new SQLException("No se encuentra el paciente");
+        }
+    }
+
+    @Test
+    public void Dado_UnPaciente_Cuando_PacienteEsMenorEdadYEstaEnfermo_Entonces_RetornarListaPacientes() throws SQLException {
+        //Arrange
+        Connection conn = getConnection();
+        Statement stmt = conn.createStatement();
+
+        stmt.execute("INSERT INTO `PACIENTES` (`id`, `tipo_id`, `nombre`, `fecha_nacimiento`) VALUES (1080,'TI','Aura','1968-07-20')");
+        stmt.execute("INSERT INTO `CONSULTAS` (`idCONSULTAS`, `fecha_y_hora`, `resumen`, `PACIENTES_id`, `PACIENTES_tipo_id`) VALUES (1262219,'1962-01-01 00:00:00','hepatitis',1080,'TI')");
+
+        stmt.execute("INSERT INTO `PACIENTES` (`id`, `tipo_id`, `nombre`, `fecha_nacimiento`) VALUES (9875,'TI','Edgar','1968-03-18')");
+        stmt.execute("INSERT INTO `CONSULTAS` (`idCONSULTAS`, `fecha_y_hora`, `resumen`, `PACIENTES_id`, `PACIENTES_tipo_id`) VALUES (1262217,'1973-05-13 00:00:00','varicela',9875,'TI')");
+
+        conn.commit();
+        conn.close();
+        try {
+            //Act
+            List<Paciente> pacientes = ServiciosPacientesFactory.getInstance().getTestingForumServices().consultarMenoresConEnfermedadContagiosa();
+            String resumen = pacientes.get(0).getConsultas().get(0).getResumen();
+            //Assert
+            Assert.assertEquals(resumen, "varicela");
+        } catch (ExcepcionServiciosSuscripciones | PersistenceException e) {
+            throw new SQLException(e);
+        }
+
+    }
 }

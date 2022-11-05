@@ -39,6 +39,8 @@ public interface DaoPaciente {
     
     public void addConsulta(int id, TipoIdentificacion tipoId, Consulta c) throws PersistenceException;
 
-    public Paciente consultarPacientesPorId(int id, TipoIdentificacion tipo_id);
+    public Paciente consultarPacientesPorId(int id, TipoIdentificacion tipo_id) throws PersistenceException;
+
+    public List<Paciente> consultarMenoresConEnfermedadContagiosa() throws PersistenceException;
 
 }
