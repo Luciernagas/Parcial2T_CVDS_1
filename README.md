@@ -2,90 +2,57 @@
 
 ### PDSW – Procesos de desarrollo de Software
 ### Parcial Segundo Tercio
+### Luisa Valentina De la hoz Rocha
+
+- - -
+Como primer paso se clono el respositorio para modificarlo de manera local
+![image](https://user-images.githubusercontent.com/104604359/200118567-12c5818b-c345-4c5c-959c-e7ba39069616.png)
+
+Después se hizo el cambio de contraseña en config.properties porque las credenciales dadas en el repositorio no son las correctas
+![image](https://user-images.githubusercontent.com/104604359/200118784-1aab118a-8ebf-4716-9637-94844c0bcab4.png)
+
+***1. (20%) A partir de la especificación hecha en los métodos consultarPacientesPorId y consultarMenoresConEnfermedadContagiosa de la fachada de servicios (la parte lógica de la aplicación), implemente sólo una prueba (la que considere más importante para validar las especificaciones y los criterios de aceptación). Siga el esquema usado en ServicesJUnitTest para poblar la base de datos volátil y verificar el comportamiento de las operaciones de la lógica.***
+
+Iniciamos implementando la lógica necesaria para resolver el primer punto inciando con el archivo PacienteMapper.xml el cual es el acceso a los datos de una base de datos relacional, es decir la relacion entre bases de datos y entidad.
+![image](https://user-images.githubusercontent.com/104604359/200119005-1dd48c19-1fc0-4584-9ea5-e98c097a73be.png)
+![image](https://user-images.githubusercontent.com/104604359/200118976-97ca4eae-6738-4179-8617-2575fbbfe245.png)
+![image](https://user-images.githubusercontent.com/104604359/200118994-3b28e276-cac0-470d-bf09-0a33d9244f35.png)
+
+Como segundo paso creamos los métodos para consultar pacientes por id y consultar menores con enfermedad contagiosa en la interfaz pacienteMapper creando la conexion entre parametros de la base de datos y la entidad.
+
+![image](https://user-images.githubusercontent.com/104604359/200119095-f8a32605-eaf0-4e39-97da-e7e4d743bf3f.png)
+
+Posteriormente repetimos el mismo paso de creacion de métodos en la interfaz DaoPaciente.
+![image](https://user-images.githubusercontent.com/104604359/200119168-beee0c5f-d866-4598-bedc-a9110bfc8ea0.png)
+
+Sobre escribimos los métodos en las clases MyBatisDAOPaciente y ServiciosPacienteImpl 
+![image](https://user-images.githubusercontent.com/104604359/200119325-2da034ff-b609-4993-b068-79a290b7e899.png)
+![image](https://user-images.githubusercontent.com/104604359/200119399-b79c60dd-a411-48fe-85ae-9034d69fda2f.png)
+
+Comprobamos que con la implementacion de la lógica de consultarPacientesPorId podemos completar la pruebaCeroTest
+![image](https://user-images.githubusercontent.com/104604359/200119455-7a231566-e142-4849-a9f3-3ad922363c97.png)
+y como resultado debe ser exitoso el resultado de la prueba
+![image](https://user-images.githubusercontent.com/104604359/200119486-3856194f-131d-4511-9a0b-742e8fe55336.png)
+
+Realizamos la implementación de las pruebas necesarias para consultarPacientesPorId y consultarMenoresConEnfermedadContagiosa
+![image](https://user-images.githubusercontent.com/104604359/200119572-0734cbcf-00d1-4c81-a052-a5e5462bb767.png)
+![image](https://user-images.githubusercontent.com/104604359/200119589-f3772791-7c21-4e98-be57-9232303691e6.png)
+
+El resultado de las pruebas deberia ser exitoso
+![image](https://user-images.githubusercontent.com/104604359/200119660-c5f1e809-a105-4c72-a3c2-2075ef5c6ab2.png)
+![image](https://user-images.githubusercontent.com/104604359/200119703-b5cd65f7-36fc-4d77-b9f4-bd2640e8977d.png)
 
 
-**IMPORTANTE**
-
-* Deseable Trabajar en Linux (para evitar problemas con las instrucciones finales).
-* Se puede consultar en la Web: APIs/Documentación de lenguaje y frameworks (Primefaces, Guice, MyBatis, etc), y enunciados de los laboratorios (se pueden revisar los fuentes incluidos con los dichos enunciados).
-* No se permite: Usar memorias USB, acceder a redes sociales, clientes de correo, o sistemas de almacenamiento en la nube (Google Drive, DropBox, etc). El uso de éstos implicará anulación.
-* Clone el proyecto con GIT, NO lo descargue directamente.
-* NO modifique los indicado en consultaPaciente.xhtml.
-* El filtrado y ordenamiento de los datos DEBE realizarse en el motor de base de datos, a través del uso de SQL. Consultar todos los datos y filtrarlos en el servidor de aplicaciones -que es supremamente INEFICIENTE- se evaluará como INCORRECTO.
+***2.(40%) Implemente la historia de usuario #1, agregando todo lo que haga falta en la capa de presentación, lógica y de persistencia. La vista debe implementarse en consultaPaciente.xhtml.***
+![image](https://user-images.githubusercontent.com/104604359/200119732-33bc130b-ddfd-44b4-8e92-2b125a520794.png)
+![image](https://user-images.githubusercontent.com/104604359/200119735-396dce22-80de-4458-b5aa-e9062ee2b31d.png)
 
 
-Se le han dado los fuentes de un avance parcial de una plataforma de consultas de pacientes de una IPS en línea. En esta plataforma los médicos podrán registrar y buscar pacientes así como buscar y registrar las consultas.
-Adicionalmente, la secretaria de salud puede hacer búsquedas para control epidemiológico.
-
-Para el Sprint en curso, se han seleccionado las siguientes historias de usuario del Backlog de producto:
-
-Recuerde que en el formato XML no se puede utilizar '<' y '>', por ejemplo al realizar comparaciones, 
- utilice '&amp;lt;' o '&amp;gt;' respectivamente. 
-
-## Historia de usuario #1
-
-  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  > **Como** Usuario de la plataforma de consultas médicas
-  >
-  > **Quiero** Poder consultar un paciente a partir de su número y tipo de identificación.
-  >
-  > **Para** Poder hacer una revisión de las consultas realizadas por un paciente cuyo documento ya conozco, y así evitar la búsqueda por el nombre del paciente.
-  >
-  > **Criterio de aceptación:** Se debe mostrar la fecha de nacimiento del paciente, su nombre, y cada una de las consultas realizadas. Las consultas deben estar organizadas de la más reciente (mostrados arriba) a la más antígua, y deben mostrar la fecha y el resúmen.
-
-## Historia de usuario #2
-
-  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  > **Como** Usuario de la secretaría de salud de la plataforma
-  >
-  > **Quiero** Tener un reporte de las consultas de los menores de edad (menóres de 18 años) en las que en el resúmen se encuentren enfermedades contagiosas.
-  >
-  > **Para** Conocer con rapidez qué pacientes debo revisar y tomar medidas al respecto.
-  >
-  > **Criterio de aceptación:** El reporte NO debe requerir entrar parámetro alguno. Se considerán como enfermedades contagiosas: 'hepatitis' y 'varicela'. El reporte sólo debe contener el número y tipo de identificación  del paciente y la fecha de nacimiento, ordenados por edad de mayor a menor.
-  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-El modelo de base de datos y de clases asociados a la implementación parcial son los siguientes:
-
-![](./img/Diagram.png)
-
-![](./img/Model.png)
-
-A partir de la aplicación base suministrada, debe realizar lo siguiente:
-
-Dado un número y tipo de identificacion de un paciente, mostrar el paciente y las consultas que ha realizado esde paciente.
-
-Mostrar los pacientes menores de edad que en sus consultas se encuentren las enfermedades: hepatitis o varicela.
+***3.(40%)Implemente la historia de usuario #2, agregando todo lo que haga falta en la capa de presentación, lógica y de persistencia. La vista debe implementarse en consultarMenoresEnfermedadContagiosa.xhtml.***
+![image](https://user-images.githubusercontent.com/104604359/200120915-4c45989a-28d9-48c7-b3c4-71c9454b2488.png)
+![image](https://user-images.githubusercontent.com/104604359/200120925-8a17f5de-7fb5-4da4-8144-1b5a0edd0ee6.png)
 
 
-1.  (20%) A partir de la especificación hecha en los métodos
-    *consultarPacientesPorId* y *consultarMenoresConEnfermedadContagiosa* de la fachada de
-    servicios (la parte lógica de la aplicación), implemente sólo una prueba (la que considere más importante para validar las especificaciones y los criterios de aceptación). Siga el esquema usado en ServicesJUnitTest para poblar la base de datos volátil y verificar el comportamiento de las operaciones de la lógica.
-
-2.  (40%) Implemente la historia de usuario #1, agregando todo lo que haga falta en la capa de presentación, lógica y de persistencia. La vista debe implementarse en consultaPaciente.xhtml.
-
-3.  (40%)Implemente la historia de usuario #2, agregando todo lo que haga falta en la capa de presentación, lógica y de persistencia. La vista debe implementarse en consultarMenoresEnfermedadContagiosa.xhtml.
 
 
-## Entrega
-
-1. Documentar la solución en Readme de Git.
-
-## Bono
-
-Si después de realizado el parcial, de forma INDIVIDUAL encuentra defectos menores (que impliquen a lo sumo cambiar 5 líneas de código), y que al corregirlos permiten que los puntos 2 o 3 funcionen:
-
-1. Haga los ajustes en su código.
-
-2. Haga un nuevo commit con el mensaje "entrega bono, ahora funciona el Punto XX" , donde XX es el punto que se corrigió. 
-
-3. Ejecute:
-
-    ```bash
-    $ git diff --stat HEAD HEAD^^
-    ```
-
-4. Si el resultado del comando anterior es menor o igual a 10, puede aplicar al bono.
-
-5. Comprima la nueva versión siguiendo el esquema indicado en el parcial, y súbalo a más tardar el 24 de Marzo a las 11:59pm en el espacio correspondiente.
 
