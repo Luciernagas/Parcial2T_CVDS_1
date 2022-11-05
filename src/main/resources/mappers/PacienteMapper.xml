@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="edu.eci.pdsw.samples.persistence.mybatisimpl.mappers.PacienteMapper">
+
+    <resultMap type='Paciente' id='PacienteResult'>
+        <id property='id' column='id'/>        
+        <id property='tipo_id' column='tipo_id' typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+        <result property='fechaNacimiento' column='fecha_nacimiento'/>
+        <result property='nombre' column='nombre'/>
+    </resultMap>
+
+    <select id="getPacientes" resultMap="PacienteResult">
+        SELECT
+            p.id,
+            p.tipo_id,
+            p.fecha_nacimiento,
+            p.nombre
+        FROM
+            PACIENTES as p
+    </select>
+
+    <select id="consultarPacientesPorId" resultMap="PacienteResult" parameterType="Map">
+        SELECT
+        p.id,
+        p.tipo_id,
+        p.fecha_nacimiento,
+        p.nombre
+        FROM
+        PACIENTES as p
+        WHERE
+        p.id = #{id} and p.tipo_id = #{tipo_id}
+    </select>
+
+    <select id="consultarMenoresConEnfermedadContagiosa" resultMap="PacienteResult" parameterType="Map">
+        SELECT
+        p.id,
+        p.tipo_id,
+        p.fecha_nacimiento,
+        p.nombre
+        FROM
+        PACIENTES as p
+        WHERE
+        p.id = #{id} and p.tipo_id = #{tipo_id}
+    </select>
+
+
+</mapper>

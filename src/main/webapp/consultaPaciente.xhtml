@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title></title>
+    </h:head>
+    <h:body>
+        <h1>TITULO</h1>
+        <h:form>
+            <!--Por favor no cambiar el 'id':-->
+            <p:inputText id="identificacion_paciente"></p:inputText>
+            <p:selectOneMenu value="#{mb.tipoIdentificacion}" >
+                <f:selectItems value="#{mb.tiposIdentificacion}" />
+            </p:selectOneMenu>
+            <!--Por favor no cambiar el 'value':-->
+            <p:commandButton value="Consultar"></p:commandButton>
+        </h:form>
+    </h:body>
+</html>
+
